@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://feel-better-app-ecru.vercel.app/api';
 
 const getToken = () => localStorage.getItem('token');
 

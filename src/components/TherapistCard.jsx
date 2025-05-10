@@ -7,23 +7,21 @@ function combineDateAndTimeIST(selectedDate, timeStr) {
   const [hours, minutes] = timeStr.split(':').map(Number);
 
   const localDate = new Date(selectedDate);
-  localDate.setHours(hours, minutes, 0, 0); // Set time
+  localDate.setHours(hours, minutes, 0, 0);
 
-  // Format components
   const yyyy = localDate.getFullYear();
   const mm = String(localDate.getMonth() + 1).padStart(2, '0');
   const dd = String(localDate.getDate()).padStart(2, '0');
   const hh = String(localDate.getHours()).padStart(2, '0');
   const min = String(localDate.getMinutes()).padStart(2, '0');
 
-  // Manually add +05:30 offset (IST)
-  return `${yyyy}-${mm}-${dd}T${hh}:${min}:00.000+05:30`;
+  return `${yyyy}-${mm}-${dd}T${hh}:${min}:00.000+00:00`;
 }
 
 function TherapistCard({ therapist }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState('');
-  const [availableSlots, setAvailableSlots] = useState([]);
+  const [availableSlots, setAvailableSlots] = useState(null);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -37,7 +35,6 @@ function TherapistCard({ therapist }) {
       const yyyy = selectedDate.getFullYear();
       const mm = String(selectedDate.getMonth() + 1).padStart(2, '0');
       const dd = String(selectedDate.getDate()).padStart(2, '0');
-
       const date = `${yyyy}-${mm}-${dd}`;
       const fetchAvailableSlots = async () => {
         try {
@@ -45,7 +42,7 @@ function TherapistCard({ therapist }) {
             id: therapist._id,
             date: date,
           });
-          setAvailableSlots(response.slots || []);
+          setAvailableSlots(response.slots);
           setMessage('');
         } catch (error) {
           setMessage('Error fetching available slots');
@@ -115,7 +112,7 @@ function TherapistCard({ therapist }) {
         />
       </div>
 
-      {selectedDate && therapist && therapist._id && (
+      {availableSlots && selectedDate && therapist && therapist._id && (
         <div className="mt-4">
           <label className="block text-sm font-medium text-[#1E3A8A]">
             Available Slots

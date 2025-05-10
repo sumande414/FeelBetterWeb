@@ -9,14 +9,19 @@ function AdminPanel() {
     specialization: '',
   });
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchTherapists = async () => {
+      setIsLoading(true);
       try {
         const data = await api.getTherapists();
         setTherapists(data);
       } catch (error) {
         setMessage('Error fetching therapists');
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchTherapists();
@@ -24,6 +29,7 @@ function AdminPanel() {
 
   const handleTherapistSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       const response = await api.addTherapist(therapistData);
       if (response.message === 'Therapist added') {
@@ -35,11 +41,18 @@ function AdminPanel() {
       }
     } catch (error) {
       setMessage('Error adding therapist');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="w-2xl bg-[#BFDBFE] bg-opacity-60 rounded-2xl shadow-xl p-8">
+    <div className="w-2xl bg-[#BFDBFE] bg-opacity-60 rounded-2xl shadow-xl p-8 relative">
+      {(isLoading || isSubmitting) && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-60 z-10 rounded-2xl">
+          <div className="w-10 h-10 border-4 border-[#5B21B6] border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
       <h2 className="text-2xl font-bold text-[#1E3A8A] mb-6 text-center">
         Admin Panel
       </h2>
@@ -107,7 +120,8 @@ function AdminPanel() {
           </div>
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-[#1E3A8A] to-[#5B21B6] text-white px-4 py-2 rounded-full font-semibold text-base hover:from-[#5B21B6] hover:to-[#1E3A8A] transition-all duration-300 shadow-md"
+            disabled={isSubmitting}
+            className="w-full bg-gradient-to-r from-[#1E3A8A] to-[#5B21B6] text-white px-4 py-2 rounded-full font-semibold text-base hover:from-[#5B21B6] hover:to-[#1E3A8A] transition-all duration-300 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Add Therapist
           </button>

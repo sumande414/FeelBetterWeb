@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import api from '../utils/api';
 
 function AppointmentCard({ appointment, onCancel }) {
@@ -18,7 +18,7 @@ function AppointmentCard({ appointment, onCancel }) {
       setMessage('Error cancelling appointment');
     }
   };
-
+  
   return (
     <div className="bg-[#BFDBFE] bg-opacity-50 shadow-lg rounded-lg p-6">
       <h3 className="text-lg font-semibold text-[#1E3A8A]">
@@ -28,7 +28,7 @@ function AppointmentCard({ appointment, onCancel }) {
         Specialization: {appointment.therapistId.specialization}
       </p>
       <p className="text-sm text-[#5B21B6]">
-        Date: {format(new Date(appointment.slotDate), 'MMMM d, yyyy h:mm a')}
+        Date: {formatInTimeZone(new Date(appointment.slotDate), 'Etc/UTC', 'MMMM d, yyyy h:mm a')}
       </p>
       <p className="text-sm text-[#5B21B6]">
         Status: {appointment.status || 'Scheduled'}
@@ -44,7 +44,6 @@ function AppointmentCard({ appointment, onCancel }) {
           {message}
         </div>
       )}
-      
     </div>
   );
 }

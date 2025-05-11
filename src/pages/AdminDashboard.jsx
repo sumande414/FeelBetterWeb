@@ -16,7 +16,7 @@ function AdminDashboard() {
   }, [user, navigate]);
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col items-center justify-start py-12 bg-gradient-to-br from-[#DBEAFE] via-[#EDE9FE] to-[#F3E8FF]">
+    <div className="min-h-screen relative overflow-hidden flex flex-col items-center justify-start py-12 bg-gradient-to-br from-[#DBEAFE] via-[#694de5] to-[#8c42dc]">
       
 
       

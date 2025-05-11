@@ -12,7 +12,7 @@ function combineDateAndTimeIST(selectedDate, timeStr) {
   const dd = String(localDate.getDate()).padStart(2, '0');
   const hh = String(localDate.getHours()).padStart(2, '0');
   const min = String(localDate.getMinutes()).padStart(2, '0');
-  return `${yyyy}-${mm}-${dd}T${hh}:${min}:00.000+00:00`;
+  return `${yyyy}-${mm}-${dd}T${hh}:${min}:00.000+05:30`;
 }
 
 function TherapistCard({ therapist }) {

@@ -44,14 +44,7 @@ function AppointmentCard({ appointment, onCancel }) {
           {message}
         </div>
       )}
-      {appointment.status !== 'Cancelled' && (
-        <button
-          onClick={handleCancel}
-          className="mt-4 w-full bg-gradient-to-r from-[#1E3A8A] to-[#5B21B6] text-white px-4 py-2 rounded-full font-semibold text-base hover:from-[#5B21B6] hover:to-[#1E3A8A] transition-all duration-300 shadow-lg"
-        >
-          Cancel Appointment
-        </button>
-      )}
+      
     </div>
   );
 }
